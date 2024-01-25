@@ -13,6 +13,8 @@ import {Modalize, useModalize} from 'react-native-modalize';
 import {base_url, options, poster_path, size_path} from '../../constants';
 import {theme} from '../../style/theme';
 
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 type Props = {
   route: {
     params: {
@@ -22,9 +24,11 @@ type Props = {
 };
 
 const DetailMovie = ({route}: Props) => {
-  const {ref, open} = useModalize();
+  const {ref, open, close} = useModalize();
   const {height} = useWindowDimensions();
   const [detailSeries, setDetailSeries] = React.useState([]);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [season, setSeason] = React.useState('');
 
   const {id} = route.params;
 
@@ -43,13 +47,19 @@ const DetailMovie = ({route}: Props) => {
     loadMovies();
   }, []);
 
-  const renderItem = ({item}) => {
-    return (
-      <View style={styles.containerItem} key={item.id}>
-        <Text style={styles.season}>{item?.name}</Text>
-      </View>
-    );
-  };
+  const renderItem = ({item}) => (
+    <View style={styles.containerItem} key={item.id}>
+      <Text
+        onPress={() => {
+          setSeason(item?.name);
+          setIsModalOpen(!isModalOpen);
+          close();
+        }}
+        style={styles.season}>
+        {item?.name}
+      </Text>
+    </View>
+  );
 
   return (
     <View style={styles.container}>
@@ -75,23 +85,30 @@ const DetailMovie = ({route}: Props) => {
       </View>
 
       <TouchableOpacity
-        style={{width: '100%', padding: 10}}
+        style={styles.buttonContainer}
         onPress={() => {
           open();
+          setIsModalOpen(!isModalOpen);
         }}>
-        <Text style={styles.linkSeason}>Season</Text>
+        <View style={styles.containerSeason}>
+          <Text style={styles.linkSeason}>{season ? season : 'Seasons'}</Text>
+          <Icon
+            name={isModalOpen ? 'keyboard-arrow-down' : 'keyboard-arrow-up'}
+            size={25}
+            color={theme.COLORS.text.white}
+          />
+        </View>
       </TouchableOpacity>
 
       <GestureHandlerRootView>
         <Modalize
+          onClose={() => {
+            setIsModalOpen(!isModalOpen);
+          }}
           ref={ref}
-          snapPoint={240}
-          modalHeight={height}
-          modalStyle={{
-            padding: 16,
-            backgroundColor: theme.COLORS.bg.secondary,
-          }}>
-          <ScrollView>
+          snapPoint={350}
+          modalStyle={styles.modalStyle}>
+          <ScrollView showsVerticalScrollIndicator>
             {detailSeries?.seasons &&
               detailSeries?.seasons.map(item => {
                 return renderItem({item});
@@ -138,17 +155,33 @@ const styles = StyleSheet.create({
     height: 250,
   },
   season: {
+    width: '100%',
+    padding: 5,
     fontSize: 22,
     color: theme.COLORS.text.white,
-    marginVertical: 2,
+    marginVertical: 6,
+    textAlign: 'center',
   },
   linkSeason: {
     fontSize: 20,
     color: theme.COLORS.text.linkSeason,
+    marginRight: 5,
   },
   containerItem: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  containerSeason: {
+    width: '100%',
+    flexDirection: 'row',
+  },
+  buttonContainer: {
+    width: '100%',
+    padding: 10,
+  },
+  modalStyle: {
+    padding: 16,
+    backgroundColor: theme.COLORS.bg.secondary,
   },
 });
 

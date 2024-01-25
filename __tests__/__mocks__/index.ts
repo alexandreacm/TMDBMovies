@@ -5,4 +5,5 @@ const navigation = {
   navigate: jest.fn(),
   goBack: jest.fn(),
 };
+
 export const mocks = {navigation, spyOnLog, spyOnWarn};
