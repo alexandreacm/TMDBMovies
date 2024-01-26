@@ -41,11 +41,10 @@ const styles = StyleSheet.create({
   },
   errorContainer: {
     width: '100%',
-    backgroundColor: theme.COLORS.ui.error,
+    backgroundColor: theme.COLORS.status.error,
     padding: 30,
   },
   errorText: {
-    lineHeight: 10,
     fontSize: 18,
     color: theme.COLORS.text.white,
   },

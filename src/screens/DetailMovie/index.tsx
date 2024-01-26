@@ -85,6 +85,7 @@ const DetailMovie = ({route}: Props) => {
       </View>
 
       <TouchableOpacity
+        testID="btnSeason"
         style={styles.buttonContainer}
         onPress={() => {
           open();

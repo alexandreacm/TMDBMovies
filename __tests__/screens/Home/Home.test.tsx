@@ -4,6 +4,8 @@ import {render, waitFor} from '@testing-library/react-native';
 
 import Home from '../../../src/screens/Home';
 import StarRating from '../../../src/components/StarRating';
+import {api} from '../../../src/service/api.movies';
+import {mocks} from '../../__mocks__/';
 
 describe('HOME', () => {
   // const tree = renderer.create(<Home navigation={mocks.navigation} />).toJSON();
@@ -57,4 +59,18 @@ describe('HOME', () => {
 
     expect(getByTestId('imgLogo')).toBeTruthy();
   });
+
+  // it('Should test FlatList', () => {
+  //   const spyOnFn = jest
+  //     .spyOn(global, 'fetch')
+  //     .mockImplementation(() => Promise.resolve(mocks.data));
+  //   const {debug} = render(<Home />);
+
+  //   api.loadMovies().then(data => {
+  //     console.log(data);
+  //   });
+
+  //   debug();
+  //   expect(spyOnFn).toHaveBeenCalled();
+  // });
 });

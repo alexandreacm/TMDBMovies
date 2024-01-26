@@ -5,7 +5,7 @@ export const COLORS = {
     white: '#FFFFFF',
     black: '#000',
   },
-  error: {
+  status: {
     error: '#D0421B',
     success: '#138000',
   },

@@ -15,7 +15,6 @@ import styles from './styles';
 
 export default function Home() {
   const [movies, setMovies] = React.useState<Series[]>([]);
-  const [customError, setCustomError] = React.useState('');
   const {navigate} = useNavigation();
 
   React.useEffect(() => {
@@ -26,7 +25,7 @@ export default function Home() {
         setMovies(data?.results);
       })
       .catch(error => {
-        setCustomError(error);
+        console.error(error);
       });
   }, []);
 
@@ -57,11 +56,6 @@ export default function Home() {
 
   return (
     <>
-      {customError && (
-        <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>{customError}</Text>
-        </View>
-      )}
       <CustomHeader title="Popular Movies" />
       <FlatList
         testID="flatList"
