@@ -2,9 +2,10 @@ import React from 'react';
 import {FlatList, Text, View, Image, TouchableOpacity} from 'react-native';
 
 import StarRating from '../../components/StarRating';
-import {base_url, options, poster_path, size_path_w220} from '../../constants';
+import {poster_path, size_path_w220} from '../../constants';
 import CustomHeader from '../../components/CustomHeader';
-import {FlatItem} from '../../models';
+import {SeriesResponseType, Series, ItemSeries} from '../../models';
+import {api} from '../../service/api.movies';
 import styles from './styles';
 
 type Props = {
@@ -12,24 +13,22 @@ type Props = {
 };
 
 export default function Home({navigation}: Props) {
-  const [movies, setMovies] = React.useState([]);
+  const [movies, setMovies] = React.useState<Series[]>([]);
+  const [customError, setCustomError] = React.useState('');
 
   React.useEffect(() => {
-    function loadMovies() {
-      fetch(`${base_url}/popular?language=en-US&page=1`, options)
-        .then(response => response.json())
-        .then(data => {
-          setMovies(data.results);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    }
-
-    loadMovies();
+    api
+      .loadMovies()
+      .then(response => response.json())
+      .then((data: SeriesResponseType) => {
+        setMovies(data?.results);
+      })
+      .catch(error => {
+        setCustomError(error);
+      });
   }, []);
 
-  const renderItem = ({item}: FlatItem) => {
+  const renderItem = ({item}: ItemSeries) => {
     return (
       <TouchableOpacity
         onPress={() => {
@@ -56,11 +55,11 @@ export default function Home({navigation}: Props) {
 
   return (
     <>
-      {/* {customError && (
+      {customError && (
         <View style={styles.errorContainer}>
           <Text style={styles.errorText}>{customError}</Text>
         </View>
-      )} */}
+      )}
       <CustomHeader title="Popular Movies" />
       <FlatList
         testID="flatList"
