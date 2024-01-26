@@ -1,4 +1,5 @@
 import React from 'react';
+import {useNavigation} from '@react-navigation/native';
 import {FlatList, Text, View, Image, TouchableOpacity} from 'react-native';
 
 import StarRating from '../../components/StarRating';
@@ -8,13 +9,14 @@ import {SeriesResponseType, Series, ItemSeries} from '../../models';
 import {api} from '../../service/api.movies';
 import styles from './styles';
 
-type Props = {
-  navigation: any;
-};
+// type Props = {
+//   navigation: any;
+// };
 
-export default function Home({navigation}: Props) {
+export default function Home() {
   const [movies, setMovies] = React.useState<Series[]>([]);
   const [customError, setCustomError] = React.useState('');
+  const {navigate} = useNavigation();
 
   React.useEffect(() => {
     api
@@ -32,7 +34,7 @@ export default function Home({navigation}: Props) {
     return (
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('DetailMovie', {id: item?.id});
+          navigate('DetailMovie', {id: item?.id});
         }}>
         <View key={String(item?.id)} style={[styles.card, styles.shadowProp]}>
           <Image

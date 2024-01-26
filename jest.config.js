@@ -2,7 +2,7 @@ module.exports = {
   preset: 'react-native',
   setupFiles: ['./__tests__/jest.setup.js'],
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'node', 'json'],
-  testMatch: ['**/__tests__/**/*.(test|spec).(js|tsx)'],
+  testMatch: ['**/__tests__/**/*.(test|spec).(ts|js|tsx)'],
   testPathIgnorePatterns: [
     './node_modules',
     './android',

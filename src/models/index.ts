@@ -9,16 +9,20 @@ export interface Rating {
 
 export interface Series {
   id: number;
+  name: string;
   adult: boolean;
   backdrop_path: string;
   original_name: string;
   overview: string;
-  popularity: number;
   poster_path: string;
   first_air_date: string;
-  name: string;
   vote_average: number;
   vote_count: number;
+}
+
+export interface SeriesMock {
+  page: number;
+  results: Series[];
 }
 
 export type SeriesResponseType = BaseResponseType & {
